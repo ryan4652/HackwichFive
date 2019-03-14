@@ -15,24 +15,52 @@ class ViewController: UIViewController {
     //create a variable that can hold the value of the slider
     var currentValue: Int = 0
     
+    var targetValue: Int = 0
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+   
+        startNewRound()
+        
+    
+        let thumbImageNormal = UIImage(named: "SliderThumb-Normal")
+        UISlider.setThumbImage(thumbImageNormal, for: .normal)
+        
+        
     }
+    
+    
 
     @IBAction func sliderHasMoved(_ sender: Any) {
         
+        
         print("The value of the slider is:\(UISlider.value)")
        
-        currentValue = Int(UISlider.value)
+        currentValue = lroundf(UISlider.value)
+    
         
     }
+    
+    
+    func startNewRound () {
+        
+        targetValue = Int.random(in: 0...100)
+        currentValue = 50
+        UISlider.value = Float(currentValue)
+        updateTargetLabel()
+    
+    }
+    
+    
+    
+    
     @IBAction func myGuessButtonPressed(_ sender: Any) {
         
         //5. New variable message that dispalyes a message that includes current value
         
-        let message = "The value is: \(currentValue)"
+        let message = "The value is: \(currentValue)" + "\nThe Target value is: \(targetValue)"
         
         //1. Create Alert View
         
@@ -50,8 +78,20 @@ class ViewController: UIViewController {
         
         present(alert, animated: true, completion:nil)
         
+        startNewRound()
+        
         
     }
+    
+    @IBOutlet var targetLabel: UILabel!
+    
+    func updateTargetLabel () {
+    targetLabel.text=String(targetValue)
+        
+    }
+        
+    
+        
     
 }
 
